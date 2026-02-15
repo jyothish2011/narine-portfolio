@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naren — Creative Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:    #222222;
+      --orange:  #F6933C;
+      --gray:    #8C8C8C;
+      --light:   #f7f8f9;
+      --white:   #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--white);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ─────────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 24px; height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo img { height: 22px; width: auto; transition: transform .3s; }
+    .nav-logo img:hover { transform: scale(1.06); }
+    .nav-links { display: flex; gap: 36px; }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gray); text-decoration: none;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-burger {
+      display: none; background: none; border: none;
+      cursor: pointer; color: var(--dark);
+    }
+    .nav-burger svg { width: 26px; height: 26px; }
+    .nav-mobile {
+      display: none; flex-direction: column; gap: 0;
+      background: var(--white); border-bottom: 1px solid #e8e8e8;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px; font-weight: 700; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gray);
+      text-decoration: none; padding: 16px 24px;
+      border-bottom: 1px solid #f0f0f0;
+      transition: color .2s;
+    }
+    .nav-mobile a:hover { color: var(--orange); }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    #hero {
+      position: relative; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--dark); overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://picsum.photos/1920/1080?grayscale');
+      background-size: cover; background-position: center;
+      opacity: .4; will-change: transform;
+    }
+    .hero-orb1 {
+      position: absolute; top: 25%; left: 25%;
+      width: 160px; height: 160px;
+      background: var(--orange); opacity: .18;
+      border-radius: 50%; filter: blur(60px);
+      will-change: transform;
+    }
+    .hero-orb2 {
+      position: absolute; bottom: 25%; right: 25%;
+      width: 220px; height: 220px;
+      background: #4a90e2; opacity: .1;
+      border-radius: 50%; filter: blur(80px);
+      will-change: transform;
+    }
+    .hero-content {
+      position: relative; z-index: 10;
+      text-align: center; padding: 0 24px;
+      will-change: transform;
+    }
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(64px, 12vw, 140px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: .95;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+    }
+    .hero-title span { color: var(--orange); }
+    .hero-sub {
+      margin-top: 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(14px, 2.5vw, 22px);
+      font-weight: 300;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .hero-scroll span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: rgba(255,255,255,.3);
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--orange), transparent);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* ── MAIN CONTENT WRAPPER ───────────────────────────── */
+    #main-content {
+      position: relative; z-index: 10;
+      background: var(--light);
+      box-shadow: 0 -50px 100px rgba(0,0,0,.1);
+    }
+
+    /* ── WORK SECTION ───────────────────────────────────── */
+    #work {
+      padding: 96px 24px;
+      max-width: 1280px; margin: 0 auto;
+    }
+    .section-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .6em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 900; color: var(--dark);
+      text-transform: uppercase; letter-spacing: -.01em;
+    }
+    .section-header { text-align: center; margin-bottom: 56px; }
+
+    /* Category cards */
+    .category-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    @media(max-width: 768px) { .category-grid { grid-template-columns: 1fr; } }
+    .cat-card {
+      position: relative; height: 480px;
+      border-radius: 28px; overflow: hidden;
+      cursor: pointer; background: var(--dark);
+      box-shadow: 0 12px 40px rgba(0,0,0,.2);
+      transition: box-shadow .5s, transform .3s;
+    }
+    .cat-card:hover {
+      box-shadow: 0 24px 70px rgba(0,0,0,.35);
+      transform: translateY(-4px);
+    }
+    .cat-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: .4; filter: grayscale(1);
+      transition: opacity .7s, filter .7s, transform .7s;
+    }
+    .cat-card:hover .cat-bg {
+      opacity: .55; filter: grayscale(0); transform: scale(1.08);
+    }
+    .cat-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.85), transparent 55%);
+    }
+    .cat-info {
+      position: absolute; bottom: 36px; left: 36px; z-index: 2;
+    }
+    .cat-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .4em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 6px;
+    }
+    .cat-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 46px; font-weight: 900;
+      color: var(--white); text-transform: uppercase;
+      line-height: 1; letter-spacing: -.01em; margin-bottom: 20px;
+    }
+    .cat-name span { color: var(--orange); }
+    .cat-line {
+      height: 3px; background: var(--orange);
+      width: 0; border-radius: 2px;
+      transition: width .5s cubic-bezier(.4,0,.2,1);
+    }
+    .cat-card:hover .cat-line { width: 96px; }
+
+    /* ── BRAND WALL ─────────────────────────────────────── */
+    .brand-wall { display: none; animation: fadeIn .4s ease; }
+    .brand-wall.active { display: block; }
+    .back-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 56px; padding: 0 4px;
+    }
+    .back-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: none; border: none; cursor: pointer;
+      color: var(--gray); transition: color .25s;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .back-btn:hover { color: var(--orange); }
+    .back-btn svg { width: 18px; height: 18px; transition: transform .25s; }
+    .back-btn:hover svg { transform: translateX(-4px); }
+    .wall-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px; font-weight: 900;
+      text-transform: uppercase; color: var(--dark);
+      letter-spacing: -.01em;
+    }
+    .brand-list {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 48px 32px;
+      max-width: 1100px; margin: 0 auto; padding: 0 8px;
+    }
+    @media(max-width: 1024px) { .brand-list { grid-template-columns: repeat(4,1fr); } }
+    @media(max-width: 768px)  { .brand-list { grid-template-columns: repeat(2,1fr); } }
+    .brand-item {
+      text-align: center; cursor: pointer;
+      transition: transform .3s;
+    }
+    .brand-item:hover { transform: scale(1.08); }
+    .brand-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(14px, 1.6vw, 20px);
+      font-weight: 300; letter-spacing: .12em;
+      text-transform: uppercase; line-height: 1.25;
+      transition: font-weight .2s;
+    }
+    .brand-item:hover .brand-name { font-weight: 800; }
+    .brand-name.orange { color: var(--orange); }
+    .brand-name.grey   { color: var(--gray); }
+    .view-work {
+      display: block; margin-top: 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gray); opacity: .45;
+    }
+
+    /* ── TVC ────────────────────────────────────────────── */
+    .tvc-wall { display: none; animation: fadeIn .4s ease; }
+    .tvc-wall.active { display: block; }
+    .tvc-grid {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 48px; max-width: 1200px; margin: 0 auto;
+    }
+    @media(max-width: 768px) { .tvc-grid { grid-template-columns: 1fr; } }
+    .tvc-item .video-wrap {
+      position: relative;
+      aspect-ratio: 16/9;
+      border-radius: 18px; overflow: hidden;
+      background: #000;
+      box-shadow: 0 12px 40px rgba(0,0,0,.18);
+      transition: box-shadow .4s;
+    }
+    .tvc-item:hover .video-wrap { box-shadow: 0 24px 70px rgba(0,0,0,.3); }
+    .tvc-item video { width: 100%; height: 100%; object-fit: cover; }
+    .tvc-label {
+      margin-top: 14px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .45em; text-transform: uppercase;
+      color: var(--gray); transition: color .25s;
+    }
+    .tvc-item:hover .tvc-label { color: var(--orange); }
+
+    /* ── GALLERY OVERLAY ────────────────────────────────── */
+    #gallery-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: var(--white); overflow-y: auto;
+      display: none; animation: fadeIn .3s ease;
+    }
+    #gallery-overlay.open { display: block; }
+    .gallery-header {
+      position: sticky; top: 0;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #f0f0f0;
+      padding: 20px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 10;
+    }
+    .gallery-header-left { display: flex; align-items: center; gap: 16px; }
+    .gallery-back-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 8px; border-radius: 50%;
+      color: var(--dark); transition: background .2s;
+    }
+    .gallery-back-btn:hover { background: #f0f0f0; }
+    .gallery-back-btn svg { width: 22px; height: 22px; display: block; }
+    .gallery-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px; font-weight: 900;
+      text-transform: uppercase; color: var(--dark);
+      letter-spacing: .02em;
+    }
+    .gallery-close-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 8px; border-radius: 50%;
+      color: var(--gray); transition: background .2s, color .2s;
+    }
+    .gallery-close-btn:hover { background: #f0f0f0; color: var(--dark); }
+    .gallery-close-btn svg { width: 30px; height: 30px; display: block; }
+    .gallery-grid {
+      max-width: 1280px; margin: 0 auto;
+      padding: 48px 24px;
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 28px;
+    }
+    @media(max-width:900px)  { .gallery-grid { grid-template-columns: repeat(2,1fr); } }
+    @media(max-width:550px)  { .gallery-grid { grid-template-columns: 1fr; } }
+    .gallery-img-wrap {
+      position: relative;
+      aspect-ratio: 3/2;
+      border-radius: 16px; overflow: hidden;
+      background: #f0f0f0;
+      box-shadow: 0 4px 20px rgba(0,0,0,.06);
+      transition: box-shadow .5s, transform .3s;
+    }
+    .gallery-img-wrap:hover {
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+      transform: translateY(-3px);
+    }
+    .gallery-img-wrap img,
+    .gallery-img-wrap video {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .7s;
+    }
+    .gallery-img-wrap:hover img,
+    .gallery-img-wrap:hover video { transform: scale(1.08); }
+    .gallery-img-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0);
+      transition: background .3s;
+      pointer-events: none;
+    }
+    .gallery-img-wrap:hover .gallery-img-overlay { background: rgba(0,0,0,.06); }
+
+    /* ── ABOUT ──────────────────────────────────────────── */
+    #about {
+      padding: 96px 24px;
+      background: var(--white);
+      border-top: 1px solid #f0f0f0;
+      border-bottom: 1px solid #f0f0f0;
+      overflow: hidden;
+    }
+    .about-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    @media(max-width: 900px) {
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-orb {
+      position: absolute; top: -40px; left: -40px;
+      width: 260px; height: 260px;
+      background: rgba(246,147,60,.12);
+      border-radius: 50%; filter: blur(60px);
+    }
+    .about-img {
+      position: relative; z-index: 2;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,.18);
+      transform: rotate(2deg);
+      transition: transform .5s cubic-bezier(.4,0,.2,1);
+    }
+    .about-img:hover { transform: rotate(0deg); }
+    .about-img img { width: 100%; height: auto; display: block; }
+    .about-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .5em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 16px;
+    }
+    .about-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(40px, 5.5vw, 68px);
+      font-weight: 900; line-height: .95;
+      text-transform: uppercase; color: var(--dark);
+      margin-bottom: 32px; letter-spacing: -.02em;
+    }
+    .about-headline .muted { color: #d0d0d0; }
+    .about-text {
+      font-size: 17px; font-weight: 300;
+      line-height: 1.75; color: #666;
+      margin-bottom: 16px;
+    }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 28px; margin-top: 48px;
+    }
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 44px; font-weight: 900; color: var(--dark);
+    }
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gray); margin-top: 4px;
+    }
+    .about-cta {
+      display: inline-block; margin-top: 48px;
+      background: var(--dark); color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .2em; text-transform: uppercase;
+      padding: 20px 44px; border-radius: 100px;
+      text-decoration: none;
+      transition: background .25s, transform .2s, box-shadow .25s;
+      box-shadow: 0 8px 30px rgba(0,0,0,.15);
+    }
+    .about-cta:hover {
+      background: var(--orange);
+      transform: scale(1.04);
+      box-shadow: 0 12px 40px rgba(246,147,60,.3);
+    }
+    .about-cta:active { transform: scale(.98); }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    #footer {
+      background: var(--dark); color: var(--white);
+      padding: 64px 24px;
+    }
+    .footer-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 32px;
+    }
+    .footer-logo img { height: 18px; width: auto; filter: invert(1) brightness(0.5); margin-bottom: 12px; }
+    .footer-copy {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gray);
+    }
+    .footer-socials { display: flex; gap: 32px; }
+    .footer-socials a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: var(--gray); text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-socials a:hover { color: var(--orange); }
+
+    /* ── UTILITY ─────────────────────────────────────────── */
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="https://naren.alrichroshan.in/wp-content/uploads/2022/01/Its-Naren-1.png" alt="Naren" />
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#work" id="navMainline" data-target="mainline">Mainline</a>
+      <a href="#work" id="navDigital"  data-target="digital">Digital</a>
+      <a href="#work" id="navTVC"      data-target="tvc">TVC</a>
+    </div>
+    <button class="nav-burger" id="burger" aria-label="Menu">
+      <svg id="burgerIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+      </svg>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="#about" class="mob-link">About</a>
+    <a href="#work" class="mob-link" data-target="mainline">Mainline</a>
+    <a href="#work" class="mob-link" data-target="digital">Digital</a>
+    <a href="#work" class="mob-link" data-target="tvc">TVC</a>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-orb1" id="heroOrb1"></div>
+  <div class="hero-orb2" id="heroOrb2"></div>
+  <div class="hero-content" id="heroContent">
+    <h1 class="hero-title">GALLERY<span>.</span></h1>
+    <p class="hero-sub">Naren &bull; Creative Vision</p>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll Down</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<div id="main-content">
+
+  <!-- WORK SECTION -->
+  <section id="work">
+    <div class="section-header">
+      <p class="section-eyebrow">Creative Works</p>
+      <h3 class="section-title">Selected Projects</h3>
+    </div>
+
+    <!-- Category Cards -->
+    <div class="category-grid" id="catGrid">
+      <div class="cat-card" data-go="mainline">
+        <div class="cat-bg" style="background-image:url('https://picsum.photos/seed/mainline/800/1000')"></div>
+        <div class="cat-overlay"></div>
+        <div class="cat-info">
+          <p class="cat-sub">Portfolio</p>
+          <h3 class="cat-name">MAINLINE<span>.</span></h3>
+          <div class="cat-line"></div>
+        </div>
+      </div>
+      <div class="cat-card" data-go="digital">
+        <div class="cat-bg" style="background-image:url('https://picsum.photos/seed/digital/800/1000')"></div>
+        <div class="cat-overlay"></div>
+        <div class="cat-info">
+          <p class="cat-sub">Interactive</p>
+          <h3 class="cat-name">DIGITAL<span>.</span></h3>
+          <div class="cat-line"></div>
+        </div>
+      </div>
+      <div class="cat-card" data-go="tvc">
+        <div class="cat-bg" style="background-image:url('https://picsum.photos/seed/tvc/800/1000')"></div>
+        <div class="cat-overlay"></div>
+        <div class="cat-info">
+          <p class="cat-sub">Motion</p>
+          <h3 class="cat-name">TVC CONTENT<span>.</span></h3>
+          <div class="cat-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mainline Brand Wall -->
+    <div class="brand-wall" id="mainlineWall">
+      <div class="back-row">
+        <button class="back-btn back-to-cat">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Back to Categories
+        </button>
+        <span class="wall-title">Mainline Brands</span>
+      </div>
+      <div class="brand-list" id="mainlineBrands"></div>
+    </div>
+
+    <!-- Digital Brand Wall -->
+    <div class="brand-wall" id="digitalWall">
+      <div class="back-row">
+        <button class="back-btn back-to-cat">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Back to Categories
+        </button>
+        <span class="wall-title">Digital Brands</span>
+      </div>
+      <div class="brand-list" id="digitalBrands"></div>
+    </div>
+
+    <!-- TVC Wall -->
+    <div class="tvc-wall" id="tvcWall">
+      <div class="back-row">
+        <button class="back-btn back-to-cat">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Back to Categories
+        </button>
+        <span class="wall-title">TVC Content</span>
+      </div>
+      <div class="tvc-grid" id="tvcGrid"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-img-wrap">
+        <div class="about-orb"></div>
+        <div class="about-img">
+          <img src="https://picsum.photos/seed/naren-profile/800/1000" alt="Naren Profile" loading="lazy" />
+        </div>
+      </div>
+      <div>
+        <p class="about-eyebrow">Who is he?</p>
+        <h2 class="about-headline">Crafting Digital<br><span class="muted">Excellence.</span></h2>
+        <p class="about-text">Naren is a creative catalyst based in India, specializing in bridging the gap between traditional brand identity and modern digital experiences.</p>
+        <p class="about-text">With over a decade of experience in advertising and video production, he brings a unique narrative lens to every project, ensuring that every frame tells a story that resonates.</p>
+        <div class="about-stats">
+          <div>
+            <p class="stat-num">10+</p>
+            <p class="stat-label">Years Experience</p>
+          </div>
+          <div>
+            <p class="stat-num">200+</p>
+            <p class="stat-label">Projects Delivered</p>
+          </div>
+        </div>
+        <a href="mailto:contact@example.com" class="about-cta">Let's Collaborate</a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /main-content -->
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">
+        <img src="https://naren.alrichroshan.in/wp-content/uploads/2022/01/Its-Naren-1.png" alt="Naren" />
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> NAREN. ALL RIGHTS RESERVED.</p>
+    </div>
+    <div class="footer-socials">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Behance</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════ GALLERY OVERLAY ═══════════════ -->
+<div id="gallery-overlay">
+  <div class="gallery-header">
+    <div class="gallery-header-left">
+      <button class="gallery-back-btn" id="galleryBack">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <span class="gallery-title" id="galleryTitle">Gallery</span>
+    </div>
+    <button class="gallery-close-btn" id="galleryClose">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   DATA
+══════════════════════════════════════════ */
+const MAINLINE_BRANDS = [
+  { id:'grt', name:'GRT HOTELS', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/053.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/054.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/055.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/056.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/057.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/058.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/060.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/061.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/062.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/063.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/064.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/065.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/066-2.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/067.jpg']},
+  { id:'vr-chennai', name:'VR CHENNAI', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/041-1.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/042-1.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/043-1.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/044-1.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/045-1.jpg']},
+  { id:'air-arabia', name:'AIR ARABIA', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/046.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/047.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/048.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/049.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/050.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/051.jpg']},
+  { id:'prakruthi', name:'PRAKRUTHI', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/001.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/002.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/003.jpg']},
+  { id:'billroth', name:'BILLROTH HOSPITALS', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/024.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/025.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/026.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/027.jpg']},
+  { id:'panasonic', name:'PANASONIC', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/004.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/005.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/006.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/007.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/011.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/012.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/013.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/014.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/015.jpg']},
+  { id:'style-spa', name:'STYLE SPA FURNITURE', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/008.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/009.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/010.jpg']},
+  { id:'phoenix', name:'PHOENIX MARKETCITY', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/017.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/018.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/019.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/020.jpg']},
+  { id:'reliance', name:'RELIANCE JEWELS', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/028.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/029.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/030.jpg']},
+  { id:'chennai-sangamam', name:'CHENNAI SANGAMAM', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/032.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/033.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/034.jpg']},
+  { id:'herba-clean', name:'HERBA CLEAN', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/038.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/039.jpg']},
+  { id:'mrf-zvts', name:'MRF ZVTS', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/036.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/037.jpg']},
+  { id:'kasturi', name:'KASTURI COTTON', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2024/08/01-KC-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/02-KC-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/03-KC-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/04-KC-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/05-KC-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/06-KC-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/07-KC-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/02/01-Spritual-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/02/02-Spritual-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/02/03-Spritual-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/02/04-Spritual-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/02/05-Spritual-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/02/06-Spiritual-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/02/07-Spiritual-scaled.jpg']},
+  { id:'mrf-paints', name:'MRF PAINTS', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2024/08/01-MRF-Ruca-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/02-MRF-Ruca-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/03-MRF-Ruca-scaled.jpg']},
+  { id:'newuberg', name:'NEWUBERG', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2024/08/001-New-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/002-New-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/003-New-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/004-New-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/005-New-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/006-New-scaled.jpg']},
+  { id:'butterfly', name:'BUTTERFLY', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2024/08/power-01.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/power-02.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/power-03.jpg']},
+  { id:'ars-steel', name:'ARS STEEL MAINLINE', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2025/01/CRS-RD-White-01-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/CRS-RD-White-02-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/CRS-RD-White-03-scaled.jpg']},
+  { id:'casagrand', name:'CASAGRAND', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2025/01/01-Branding-01-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/02-Branding-02-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/03-Branding-03-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/04-Branding-04-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/05-CG-Zaiden-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/06-Hanford-scaled.jpg']},
+  { id:'diha', name:'DIHA CLINIC', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2025/01/Diha-press-01-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/Diha-press-02-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/Diha-press-03-scaled.jpg']},
+  { id:'vivriti', name:'VIVRITI CAPITAL', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2024/08/Product-Man-01.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/Product-Man-02.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/Product-Man-03.jpg','https://naren.alrichroshan.in/wp-content/uploads/2024/08/Product-Man-04.jpg']},
+  { id:'other', name:'OTHER BRANDS', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/016.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/021.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/022.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/023.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/031.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/035.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/052.jpg']},
+];
+
+const DIGITAL_BRANDS = [
+  { id:'shree-mithai', name:'SHREE MITHAI', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/03-SM-veg-pizza-roll.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/04-SM-Chinese-Combo.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/10-pizza-time.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/11-Bedmi-Poori.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/11-Veg-Pizza-Rolls.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/12-Bombay-Vada-Pav.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/Baklava-copy.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/Garlic-Murukku-Gif.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/mango-1x1-1.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/Plumcake-rev.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/SM-Bread-02.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/SM-Dhokla.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/SM-Holi-Insta.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/SM-Kaanum-Pongal.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/Wheat-bread-1x1-for-edit-rev.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/8.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/7.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/6.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/5.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/4.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/3.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/2.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/1.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/ezgif.com-gif-maker.gif']},
+  { id:'digival', name:'DIGIVAL', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/01-Digi-Edtech-Carousel.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/03-Digi-Edtech-Carousel.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/04-Digi-Edtech-Carousel-1.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/05-Digi-Edtech-Carousel.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/1-1.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/2-1.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/3-1.gif']},
+  { id:'krpl', name:'KRPL', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/Cardia-Doctors-Day.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/1-2.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/GW-met-gala-2021.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/2-2.gif']},
+  { id:'franch', name:'FRANCH', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/1-3.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/2-3.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/Franch-Oil-shaving-for-Edit.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/3-2.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/4-1.gif','https://naren.alrichroshan.in/wp-content/uploads/2022/01/Franch-travel.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/Gif-2.gif']},
+  { id:'parry', name:'PARRY', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2022/01/01-Parry-Microwave.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/02-Parry-Mask.jpg','https://naren.alrichroshan.in/wp-content/uploads/2022/01/parry-vegan.jpg']},
+  { id:'ars-steel-digital', name:'ARS STEEL DIGITAL', isOrange:false, images:['https://naren.alrichroshan.in/wp-content/uploads/2025/01/06-ARS-CH-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/07-ARS-Ring.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/08-ARS-Fire-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/09-ARS-Child.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/10-Ganesh-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/11-ARS-Ring.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/12-ARS-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/13-ARS.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/14-ARS.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/15-ARS.jpg']},
+  { id:'india-cements-digital', name:'INDIA CEMENTS DIGITAL', isOrange:true, images:['https://naren.alrichroshan.in/wp-content/uploads/2025/01/01-Child-IC.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/02-Rakhi-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/05-IC-Strong.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/06-IC-Watch.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/10-Ganesh-1-scaled.jpg','https://naren.alrichroshan.in/wp-content/uploads/2025/01/12-engineers-day.jpg']},
+];
+
+const TVC_ITEMS = [
+  { id:'tvc1', title:'MRF PAINTS', url:'https://naren.alrichroshan.in/wp-content/uploads/2025/01/MRF_Paints_30secs_080524.mp4' },
+  { id:'tvc2', title:'PANASONIC AC DUSTBUSTER', url:'https://naren.alrichroshan.in/wp-content/uploads/2025/01/01-Panasonic-AC-Dustbuster.mp4' },
+  { id:'tvc3', title:'PRIL 03', url:'https://naren.alrichroshan.in/wp-content/uploads/2025/01/03-Pril.mp4' },
+  { id:'tvc4', title:'PRIL 04', url:'https://naren.alrichroshan.in/wp-content/uploads/2025/01/04-Pril.mp4' },
+  { id:'tvc5', title:'PEDIGREE', url:'https://naren.alrichroshan.in/wp-content/uploads/2025/01/05-pedigree.mp4' },
+  { id:'tvc6', title:'CPS GLOBAL SCHOOL', url:'https://naren.alrichroshan.in/wp-content/uploads/2025/01/06-CPS-Global-School.mp4' },
+  { id:'tvc7', title:'CHILDRENS DAY', url:'https://naren.alrichroshan.in/wp-content/uploads/2025/01/07-Childrens-Day.mp4' },
+];
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ── Render brand walls ─────────────────── */
+function renderBrands(brands, containerId) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = brands.map(b => `
+    <div class="brand-item" data-brand-id="${b.id}" data-brand-list="${containerId === 'mainlineBrands' ? 'mainline' : 'digital'}">
+      <span class="brand-name ${b.isOrange ? 'orange' : 'grey'}">${b.name}</span>
+      <span class="view-work">VIEW WORK</span>
+    </div>
+  `).join('');
+}
+renderBrands(MAINLINE_BRANDS, 'mainlineBrands');
+renderBrands(DIGITAL_BRANDS,  'digitalBrands');
+
+/* ── Render TVC ─────────────────────────── */
+(function(){
+  const grid = document.getElementById('tvcGrid');
+  grid.innerHTML = TVC_ITEMS.map(t => `
+    <div class="tvc-item">
+      <div class="video-wrap">
+        <video src="${t.url}" controls preload="metadata"></video>
+      </div>
+      <p class="tvc-label">${t.title}</p>
+    </div>
+  `).join('');
+})();
+
+/* ══════════════════════════════════════════
+   STATE MANAGEMENT — view switching
+══════════════════════════════════════════ */
+let currentWall = null; // 'mainline' | 'digital' | 'tvc'
+
+function showCategories() {
+  document.getElementById('catGrid').classList.remove('hidden');
+  document.getElementById('mainlineWall').classList.remove('active');
+  document.getElementById('digitalWall').classList.remove('active');
+  document.getElementById('tvcWall').classList.remove('active');
+  currentWall = null;
+}
+
+function showWall(type) {
+  document.getElementById('catGrid').classList.add('hidden');
+  document.getElementById('mainlineWall').classList.remove('active');
+  document.getElementById('digitalWall').classList.remove('active');
+  document.getElementById('tvcWall').classList.remove('active');
+
+  if (type === 'mainline') document.getElementById('mainlineWall').classList.add('active');
+  else if (type === 'digital') document.getElementById('digitalWall').classList.add('active');
+  else if (type === 'tvc')     document.getElementById('tvcWall').classList.add('active');
+
+  currentWall = type;
+  document.getElementById('work').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── Category card clicks ────────────────── */
+document.querySelectorAll('.cat-card').forEach(card => {
+  card.addEventListener('click', () => showWall(card.dataset.go));
+});
+
+/* ── Back to categories buttons ─────────── */
+document.querySelectorAll('.back-to-cat').forEach(btn => {
+  btn.addEventListener('click', showCategories);
+});
+
+/* ── Nav links that jump to a wall ──────── */
+document.querySelectorAll('[data-target]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    showWall(link.dataset.target);
+  });
+});
+
+/* ── Brand item click → open gallery ────── */
+document.querySelectorAll('#mainlineBrands, #digitalBrands').forEach(list => {
+  list.addEventListener('click', e => {
+    const item = e.target.closest('.brand-item');
+    if (!item) return;
+    const listType = item.dataset.brandList;
+    const brands   = listType === 'mainline' ? MAINLINE_BRANDS : DIGITAL_BRANDS;
+    const brand    = brands.find(b => b.id === item.dataset.brandId);
+    if (brand) openGallery(brand);
+  });
+});
+
+/* ══════════════════════════════════════════
+   GALLERY OVERLAY
+══════════════════════════════════════════ */
+const overlay     = document.getElementById('gallery-overlay');
+const galleryGrid = document.getElementById('galleryGrid');
+const galleryTitle= document.getElementById('galleryTitle');
+
+function openGallery(brand) {
+  galleryTitle.textContent = brand.name + ' GALLERY';
+  galleryGrid.innerHTML = brand.images.map((src, i) => {
+    const isGif = src.endsWith('.gif');
+    return `
+      <div class="gallery-img-wrap">
+        <img src="${src}" alt="${brand.name} ${i+1}" loading="lazy" />
+        <div class="gallery-img-overlay"></div>
+      </div>`;
+  }).join('');
+  overlay.classList.add('open');
+  overlay.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGallery() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('galleryBack').addEventListener('click',  closeGallery);
+document.getElementById('galleryClose').addEventListener('click', () => {
+  closeGallery();
+  showCategories();
+});
+
+/* ══════════════════════════════════════════
+   PARALLAX
+══════════════════════════════════════════ */
+const heroBg      = document.getElementById('heroBg');
+const heroOrb1    = document.getElementById('heroOrb1');
+const heroOrb2    = document.getElementById('heroOrb2');
+const heroContent = document.getElementById('heroContent');
+
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  heroBg.style.transform      = `translateY(${y * 0.4}px) scale(${1 + y * 0.0002})`;
+  heroOrb1.style.transform    = `translateY(${y * -0.2}px)`;
+  heroOrb2.style.transform    = `translateY(${y * -0.5}px)`;
+  heroContent.style.transform = `translateY(${y * 0.1}px)`;
+}, { passive: true });
+
+/* ══════════════════════════════════════════
+   MOBILE MENU
+══════════════════════════════════════════ */
+const burger     = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+burger.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('open');
+  burger.innerHTML = isOpen
+    ? `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`
+    : `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>`;
+});
+
+document.querySelectorAll('.mob-link').forEach(link => {
+  link.addEventListener('click', e => {
+    mobileMenu.classList.remove('open');
+    burger.innerHTML = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>`;
+    if (link.dataset.target) {
+      e.preventDefault();
+      showWall(link.dataset.target);
+    }
+  });
+});
+
+/* ── Responsive: show/hide desktop nav ─── */
+function checkNav() {
+  const links = document.getElementById('navLinks');
+  const bur   = document.getElementById('burger');
+  if (window.innerWidth >= 768) {
+    links.style.display = 'flex';
+    bur.style.display   = 'none';
+    mobileMenu.classList.remove('open');
+  } else {
+    links.style.display = 'none';
+    bur.style.display   = 'block';
+  }
+}
+window.addEventListener('resize', checkNav);
+checkNav();
+</script>
+</body>
+</html>
